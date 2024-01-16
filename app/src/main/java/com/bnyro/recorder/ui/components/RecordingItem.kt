@@ -205,6 +205,12 @@ fun RecordingItem(
             var fileName by remember {
                 mutableStateOf(recordingFile.name.orEmpty())
             }
+            var baseName by remember {
+                mutableStateOf(fileName.substring(0, fileName.lastIndexOf(".")))
+            }
+            var extension by remember {
+                mutableStateOf(fileName.substring(fileName.lastIndexOf(".")))
+            }
 
             AlertDialog(
                 onDismissRequest = {
@@ -215,9 +221,9 @@ fun RecordingItem(
                 },
                 text = {
                     OutlinedTextField(
-                        value = fileName,
+                        value = baseName,
                         onValueChange = {
-                            fileName = it
+                            baseName = it
                         },
                         label = {
                             Text(stringResource(R.string.file_name))
@@ -226,7 +232,7 @@ fun RecordingItem(
                 },
                 confirmButton = {
                     DialogButton(stringResource(R.string.okay)) {
-                        recordingFile.renameTo(fileName)
+                        recordingFile.renameTo(baseName + extension)
                         playerModel.loadFiles()
                         showRenameDialog = false
                     }
