@@ -112,7 +112,8 @@ fun HomeScreen(
         ) {
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                userScrollEnabled = false
             ) { index ->
                 RecorderView(initialRecorder = initialRecorder, recordScreenMode = (index == 1))
             }
