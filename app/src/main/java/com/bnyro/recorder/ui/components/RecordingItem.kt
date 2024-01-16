@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ModeEdit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
@@ -133,6 +134,14 @@ fun RecordingItem(
                             startPlayingAudio.invoke()
                         }
                     }
+                    ClickableIcon(
+                        imageVector = Icons.Default.ModeEdit,
+                        contentDescription = stringResource(R.string.rename)
+                    ) {
+                        playerModel.stopPlaying()
+                        showRenameDialog = true
+                        showDropDown = false
+                    }
                     Box {
                         ClickableIcon(
                             imageVector = Icons.Default.MoreVert,
@@ -173,16 +182,6 @@ fun RecordingItem(
                                 onClick = {
                                     playerModel.stopPlaying()
                                     IntentHelper.shareFile(context, recordingFile)
-                                    showDropDown = false
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = {
-                                    Text(stringResource(R.string.rename))
-                                },
-                                onClick = {
-                                    playerModel.stopPlaying()
-                                    showRenameDialog = true
                                     showDropDown = false
                                 }
                             )
