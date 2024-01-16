@@ -25,6 +25,7 @@ interface FileRepository {
 
 class FileRepositoryImpl(val context: Context) : FileRepository {
     private val commonAudioExtensions = listOf(
+        ".m4a",
         ".mp3",
         ".aac",
         ".ogg",
