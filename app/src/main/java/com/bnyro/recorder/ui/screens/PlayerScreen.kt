@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
@@ -16,7 +15,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -27,7 +30,6 @@ import com.bnyro.recorder.R
 import com.bnyro.recorder.enums.SortOrder
 import com.bnyro.recorder.ui.common.ClickableIcon
 import com.bnyro.recorder.ui.components.PlayerView
-import com.bnyro.recorder.ui.dialogs.ConfirmationDialog
 import com.bnyro.recorder.ui.models.PlayerModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,10 +37,6 @@ import com.bnyro.recorder.ui.models.PlayerModel
 fun PlayerScreen(
     showVideoModeInitially: Boolean
 ) {
-    var isDeleteAllButtonVisible = false
-    var showDeleteDialog by remember {
-        mutableStateOf(false)
-    }
     var selectedSortOrder by remember {
         mutableStateOf(SortOrder.ALPHABETIC)
     }
@@ -105,14 +103,6 @@ fun PlayerScreen(
                             }
                         )
                     }
-                    if (isDeleteAllButtonVisible) {
-                        ClickableIcon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = stringResource(R.string.delete_all)
-                        ) {
-                            showDeleteDialog = true
-                        }
-                    }
                 },
                 scrollBehavior = scrollBehavior
             )
@@ -126,15 +116,6 @@ fun PlayerScreen(
             PlayerView(
                 showVideoModeInitially
             )
-        }
-    }
-
-    if (showDeleteDialog) {
-        ConfirmationDialog(
-            title = if (playerModel.selectedFiles.isEmpty()) R.string.delete_all else R.string.delete,
-            onDismissRequest = { showDeleteDialog = false }
-        ) {
-            playerModel.deleteFiles()
         }
     }
 }

@@ -18,8 +18,7 @@ import com.bnyro.recorder.ui.models.RecorderModel
 
 @Composable
 fun RecorderView(
-    initialRecorder: RecorderType,
-    recordScreenMode: Boolean
+    initialRecorder: RecorderType
 ) {
     val recorderModel: RecorderModel = viewModel(LocalContext.current as ComponentActivity)
 
@@ -30,16 +29,20 @@ fun RecorderView(
         }
     }
 
+    LaunchedEffect(recorderModel.recordScreenMode) {
+        recorderModel.stopRecording()
+    }
+
     Scaffold { pV ->
         ResponsiveRecordScreenLayout(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(pV),
             PaneOne = {
-                RecorderPreview(recordScreenMode)
+                RecorderPreview(recorderModel.recordScreenMode)
             },
             PaneTwo = {
-                RecorderController(recordScreenMode, initialRecorder)
+                RecorderController(recorderModel.recordScreenMode, initialRecorder)
             }
         )
     }

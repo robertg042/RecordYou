@@ -33,6 +33,7 @@ import com.bnyro.recorder.enums.RecorderState
 import com.bnyro.recorder.enums.RecorderType
 import com.bnyro.recorder.ui.Destination
 import com.bnyro.recorder.ui.common.ClickableIcon
+import com.bnyro.recorder.ui.components.PlayerView
 import com.bnyro.recorder.ui.models.RecorderModel
 import kotlinx.coroutines.launch
 
@@ -46,19 +47,26 @@ fun HomeScreen(
     val pagerState = rememberPagerState { 2 }
     val scope = rememberCoroutineScope()
     val view = LocalView.current
+    val showVideoModeInitially = recorderModel.recordScreenMode
+    val isRecorderView = pagerState.currentPage == 0
+    val isRecordingsView = pagerState.currentPage == 1
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = { Text(stringResource(R.string.app_name)) }, actions = {
-            ClickableIcon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = stringResource(R.string.settings)
-            ) {
-                onNavigate(Destination.Settings)
-            }
-            ClickableIcon(
-                imageVector = Icons.Default.VideoLibrary,
-                contentDescription = stringResource(R.string.recordings)
-            ) {
-                onNavigate(Destination.RecordingPlayer)
+            if (recorderModel.recorderState == RecorderState.IDLE) {
+                ClickableIcon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = stringResource(R.string.settings)
+                ) {
+                    onNavigate(Destination.Settings)
+                }
+                if (isRecorderView) {
+                    ClickableIcon(
+                        imageVector = if (recorderModel.recordScreenMode) Icons.Default.Mic else Icons.Default.Videocam,
+                        contentDescription = stringResource(R.string.record_screen)
+                    ) {
+                        recorderModel.recordScreenMode = !recorderModel.recordScreenMode
+                    }
+                }
             }
         })
     }, bottomBar = {
@@ -68,14 +76,14 @@ fun HomeScreen(
                     NavigationBarItem(
                         icon = {
                             Icon(
-                                imageVector = Icons.Default.Mic,
+                                imageVector = if (recorderModel.recordScreenMode) Icons.Default.Videocam else Icons.Default.Mic,
                                 contentDescription = stringResource(
-                                    id = R.string.record_sound
+                                    id = if (recorderModel.recordScreenMode) R.string.record_screen else R.string.record_sound
                                 )
                             )
                         },
-                        label = { Text(stringResource(R.string.record_sound)) },
-                        selected = (pagerState.currentPage == 0),
+                        label = { Text(stringResource(if (recorderModel.recordScreenMode) R.string.record_screen else R.string.record_sound)) },
+                        selected = (isRecorderView),
                         onClick = {
                             view.playSoundEffect(SoundEffectConstants.CLICK)
                             scope.launch {
@@ -86,14 +94,14 @@ fun HomeScreen(
                     NavigationBarItem(
                         icon = {
                             Icon(
-                                imageVector = Icons.Default.Videocam,
+                                imageVector = Icons.Default.VideoLibrary,
                                 contentDescription = stringResource(
-                                    id = R.string.record_screen
+                                    id = R.string.recordings
                                 )
                             )
                         },
-                        label = { Text(stringResource(R.string.record_screen)) },
-                        selected = (pagerState.currentPage == 1),
+                        label = { Text(stringResource(R.string.recordings)) },
+                        selected = (isRecordingsView),
                         onClick = {
                             view.playSoundEffect(SoundEffectConstants.CLICK)
                             scope.launch {
@@ -115,7 +123,11 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxSize(),
                 userScrollEnabled = false
             ) { index ->
-                RecorderView(initialRecorder = initialRecorder, recordScreenMode = (index == 1))
+                if (index == 0) {
+                    RecorderView(initialRecorder = initialRecorder)
+                } else if (index == 1) {
+                    PlayerView(showVideoModeInitially)
+                }
             }
         }
     }

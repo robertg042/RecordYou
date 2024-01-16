@@ -35,6 +35,7 @@ class RecorderModel : ViewModel() {
     private val supportsOverlay = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
     var recorderState by mutableStateOf(RecorderState.IDLE)
+    var recordScreenMode by mutableStateOf(false)
     var recordedTime by mutableStateOf<Long?>(null)
     val recordedAmplitudes = mutableStateListOf<Int>()
     private var activityResult: ActivityResult? = null
