@@ -35,6 +35,7 @@ import com.bnyro.recorder.ui.models.PlayerModel
 fun PlayerScreen(
     showVideoModeInitially: Boolean
 ) {
+    var isDeleteAllButtonVisible = false
     var showDeleteDialog by remember {
         mutableStateOf(false)
     }
@@ -104,11 +105,13 @@ fun PlayerScreen(
                             }
                         )
                     }
-                    ClickableIcon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = stringResource(R.string.delete_all)
-                    ) {
-                        showDeleteDialog = true
+                    if (isDeleteAllButtonVisible) {
+                        ClickableIcon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = stringResource(R.string.delete_all)
+                        ) {
+                            showDeleteDialog = true
+                        }
                     }
                 },
                 scrollBehavior = scrollBehavior
