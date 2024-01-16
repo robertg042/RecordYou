@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Dyktafon</string>
     <string name="irreversible">Na pewno\? Nie można cofnąć tej akcji!</string>
     <string name="nothing_here">Nic tutaj nie ma.</string>
     <string name="record_sound">Nagraj dźwięk</string>
     <string name="screen_recorder">Nagrywanie ekranu</string>
     <string name="recording_screen">Nagrywanie ekranu …</string>
     <string name="record_screen">Nagraj ekran</string>
-    <string name="recordings">Nagrywanie</string>
+    <string name="recordings">Nagrania</string>
     <string name="okay">OK</string>
     <string name="cancel">Anuluj</string>
     <string name="rename">Zmień nazwę</string>
@@ -31,13 +32,13 @@
     <string name="choose_dir">Wybierz katalog</string>
     <string name="audio_format">Format dźwięku</string>
     <string name="microphone">Mikrofon</string>
-    <string name="no_audio">Brak dźwięku</string>
+    <string name="no_audio">Bez dźwięku</string>
     <string name="sample_rate">Częstotliwość próbkowania</string>
     <string name="bitrate">Bitrate</string>
     <string name="auto">Automatycznie</string>
     <string name="default_audio">Domyślnie</string>
-    <string name="camcorder">Kamkorder</string>
-    <string name="unprocessed">Nieprzetworzone</string>
+    <string name="camcorder">Mikrofon kamery</string>
+    <string name="unprocessed">Dźwięk nieprzetworzony</string>
     <string name="mono">Mono</string>
     <string name="stereo">Stereo</string>
     <string name="lossless_audio">Bezstratne nagrywanie dźwięku (WAV)</string>
