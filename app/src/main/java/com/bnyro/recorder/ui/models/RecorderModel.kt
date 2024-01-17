@@ -38,6 +38,7 @@ class RecorderModel : ViewModel() {
     var recordScreenMode by mutableStateOf(false)
     var recordedTime by mutableStateOf<Long?>(null)
     val recordedAmplitudes = mutableStateListOf<Int>()
+    var wasRecordingCreated by mutableStateOf(false)
     private var activityResult: ActivityResult? = null
     private var canvasOverlay: CanvasOverlay? = null
 
@@ -70,6 +71,7 @@ class RecorderModel : ViewModel() {
         if (supportsOverlay && showOverlayAnnotation) {
             canvasOverlay = CanvasOverlay(context)
         }
+        wasRecordingCreated = true
     }
 
     @SuppressLint("NewApi")
@@ -84,6 +86,7 @@ class RecorderModel : ViewModel() {
             }
 
         startRecorderService(context, serviceIntent)
+        wasRecordingCreated = true
     }
 
     private fun startRecorderService(context: Context, intent: Intent) {

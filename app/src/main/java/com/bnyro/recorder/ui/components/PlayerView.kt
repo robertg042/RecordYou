@@ -12,7 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
@@ -25,9 +26,14 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PlayerView(
-    showVideoModeInitially: Boolean
+    showVideoModeInitially: Boolean,
+    loadFiles: Boolean = false
 ) {
     val playerModel: PlayerModel = viewModel(factory = PlayerModel.Factory)
+
+    if (loadFiles) {
+        playerModel.loadFiles()
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -88,6 +94,7 @@ fun PlayerView(
                     isVideoList = true
                 )
             }
+            playerModel.clearSelectedFiles()
         }
     }
 }

@@ -13,6 +13,9 @@
     <string name="rename">Zmień nazwę</string>
     <string name="file_name">Nazwa pliku</string>
     <string name="delete">Usuń</string>
+    <string name="delete_selected">Usuń zaznaczone</string>
+    <string name="delete_question">Usunąć\?</string>
+    <string name="delete_question_selected">Usunąć zaznaczone pliki\?</string>
     <string name="recording_audio">Nagrywanie dźwięku …</string>
     <string name="stop">Zatrzymaj</string>
     <string name="share">Udostępnij</string>

@@ -17,8 +17,8 @@ import com.bnyro.recorder.enums.SortOrder
 import com.bnyro.recorder.obj.RecordingItemData
 import com.bnyro.recorder.util.FileRepository
 import com.bnyro.recorder.util.PlayerHelper
-import java.io.IOException
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class PlayerModel(private val fileRepository: FileRepository) : ViewModel() {
     var isPlaying by mutableStateOf(false)
@@ -27,7 +27,7 @@ class PlayerModel(private val fileRepository: FileRepository) : ViewModel() {
 
     var selectedFiles by mutableStateOf(listOf<RecordingItemData>())
 
-    private var sortOrder = SortOrder.DEFAULT
+    private var sortOrder = SortOrder.ALPHABETIC
 
     var audioRecordingItems by mutableStateOf(listOf<RecordingItemData>())
     var screenRecordingItems by mutableStateOf(listOf<RecordingItemData>())
@@ -49,17 +49,16 @@ class PlayerModel(private val fileRepository: FileRepository) : ViewModel() {
         loadFiles()
     }
 
-    fun deleteFiles() {
+    fun deleteSelectedFiles() {
         viewModelScope.launch {
-            if (selectedFiles.isEmpty()) {
-                fileRepository.deleteAllFiles()
-                loadFiles()
-                return@launch
-            }
             fileRepository.deleteFiles(selectedFiles.map { it.recordingFile })
-            selectedFiles = emptyList()
+            clearSelectedFiles()
             loadFiles()
         }
+    }
+
+    fun clearSelectedFiles() {
+        selectedFiles = emptyList();
     }
 
     fun startPlaying(context: Context, file: DocumentFile) {

@@ -187,7 +187,7 @@ fun RecordingItem(
                             )
                             DropdownMenuItem(
                                 text = {
-                                    Text(stringResource(R.string.delete))
+                                    Text(stringResource(if (playerModel.selectedFiles.contains(recordingItem)) R.string.delete_selected else R.string.delete))
                                 },
                                 onClick = {
                                     playerModel.stopPlaying()
@@ -247,11 +247,15 @@ fun RecordingItem(
 
         if (showDeleteDialog) {
             ConfirmationDialog(
-                title = R.string.delete,
+                title = if (playerModel.selectedFiles.contains(recordingItem)) R.string.delete_question_selected else R.string.delete_question,
                 onDismissRequest = { showDeleteDialog = false }
             ) {
                 playerModel.stopPlaying()
-                recordingFile.delete()
+                if (playerModel.selectedFiles.contains(recordingItem)) {
+                    playerModel.deleteSelectedFiles()
+                } else {
+                    recordingFile.delete()
+                }
                 playerModel.loadFiles()
             }
         }

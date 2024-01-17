@@ -56,7 +56,13 @@ fun RecordingItemList(
                         isSelected = playerModel.selectedFiles.contains(it),
                         onClick = { wasLongPress ->
                             when {
-                                wasLongPress -> playerModel.selectedFiles += it
+                                wasLongPress -> {
+                                    if (playerModel.selectedFiles.contains(it)) {
+                                        playerModel.selectedFiles -= it
+                                    } else {
+                                        playerModel.selectedFiles += it
+                                    }
+                                }
                                 playerModel.selectedFiles.isNotEmpty() -> {
                                     if (playerModel.selectedFiles.contains(it)) {
                                         playerModel.selectedFiles -= it
